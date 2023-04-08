@@ -1,4 +1,4 @@
-package com.example.menumicroservicio.web.responses;
+package com.example.menumicroservicio.web.dtos.responses;
 
 import lombok.Builder;
 import lombok.Getter;

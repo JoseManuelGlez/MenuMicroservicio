@@ -1,17 +1,21 @@
-package com.example.menumicroservicio.services.interfaces;
+package com.example.menumicroservicio.services;
 
 import com.example.menumicroservicio.persistances.entities.Menu;
 import com.example.menumicroservicio.persistances.repositories.IMenuRepository;
-import com.example.menumicroservicio.web.requests.CreateChangeStatusRequest;
-import com.example.menumicroservicio.web.requests.CreateFindByIdRequest;
-import com.example.menumicroservicio.web.requests.CreateMenuRequest;
-import com.example.menumicroservicio.web.responses.BaseResponse;
+import com.example.menumicroservicio.services.interfaces.IMenuService;
+import com.example.menumicroservicio.web.dtos.requests.CreateChangeStatusRequest;
+import com.example.menumicroservicio.web.dtos.requests.CreateFindByIdRequest;
+import com.example.menumicroservicio.web.dtos.requests.CreateMenuRequest;
+import com.example.menumicroservicio.web.dtos.requests.ViewRequest;
+import com.example.menumicroservicio.web.dtos.responses.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class MenuServiceImpl implements IMenuService{
+public class MenuServiceImpl implements IMenuService {
     @Autowired
     private IMenuRepository repository;
 
@@ -57,6 +61,23 @@ public class MenuServiceImpl implements IMenuService{
                 .httpStatus(HttpStatus.OK)
                 .statusCode(HttpStatus.OK.value())
                 .build();
+    }
+
+    @Override
+    public BaseResponse View(ViewRequest request) {
+         List<Menu> menus= from(request);
+        return BaseResponse.builder()
+                .sessionId(request.getSessionId())
+                .data(menus)
+                .message("View")
+                .success(Boolean.TRUE)
+                .httpStatus(HttpStatus.OK)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+    }
+
+    private List<Menu> from(ViewRequest request) {
+        return repository.findAll();
     }
 
     private Menu from(CreateMenuRequest request){

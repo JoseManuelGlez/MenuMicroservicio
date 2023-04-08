@@ -16,30 +16,30 @@ public class RabbitMQ implements IRabbitMQ{
     @Override
     public void sendToMenuCreateResponseQueue(BaseResponse response) throws JsonProcessingException {
         String serialize = MapperUtil.serialize(response);
-        template.convertAndSend("queue.menu_create_response", serialize);
+        template.convertAndSend("queue.menus_create_response", serialize);
     }
 
     @Override
     public void sendToMenuCreateErrorQueue(BaseResponse response) throws JsonProcessingException {
         String serialize = MapperUtil.serialize(response);
-        template.convertAndSend("queue.menu_create_errors", serialize);
+        template.convertAndSend("queue.menus_create_errors", serialize);
     }
 
     @Override
     public void sendToMenuChangeStatusResponseQueue(BaseResponse response) throws JsonProcessingException {
         String serialize = MapperUtil.serialize(response);
-        template.convertAndSend("queue.menu_change_status_response", serialize);
+        template.convertAndSend("queue.menus_change_status_response", serialize);
     }
 
     @Override
     public void sendToMenuChangeStatusErrorQueue(BaseResponse response) throws JsonProcessingException {
         String serialize = MapperUtil.serialize(response);
-        template.convertAndSend("queue.menu_change_status_errors", serialize);
+        template.convertAndSend("queue.menus_change_status_errors", serialize);
     }
 
     @Override
     public void sendToMenuViewResponseQueue(BaseResponse response) throws JsonProcessingException {
         String serialize = MapperUtil.serialize(response);
-        template.convertAndSend("queue.menu_view_response", serialize);
+        template.convertAndSend("queue.menus_view_response", serialize);
     }
 }

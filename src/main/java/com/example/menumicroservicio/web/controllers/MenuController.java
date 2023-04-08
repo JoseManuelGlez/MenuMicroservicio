@@ -25,7 +25,7 @@ public class MenuController {
     @Autowired
     private MenuExceptions exceptions;
 
-    @RabbitListener(queues = "queue.menu_view")
+    @RabbitListener(queues = "queue.menus_view")
     public void view(String payload) throws JsonProcessingException {
         ViewRequest request = MapperUtil.deserialize(payload, ViewRequest.class);
         BaseResponse response = service.View(request);
@@ -52,6 +52,9 @@ public class MenuController {
         try {
             BaseResponse response = service.changeStatus(request);
             rabbitMQ.sendToMenuChangeStatusResponseQueue(response);
+            ViewRequest vr = new ViewRequest();
+            vr.setSessionId(null);
+            view(MapperUtil.serialize(vr));
         }catch (Exception e){
             exceptions.changeStatusError(e, request.getSessionId());
         }

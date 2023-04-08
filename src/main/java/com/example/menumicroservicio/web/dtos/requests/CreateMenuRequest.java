@@ -9,6 +9,6 @@ public class CreateMenuRequest {
     private String price;
     private String category;
     private String status;
-    private byte[] image;
+    private String image;
     private String sessionId;
 }

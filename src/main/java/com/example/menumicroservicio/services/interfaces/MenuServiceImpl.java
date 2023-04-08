@@ -3,6 +3,7 @@ package com.example.menumicroservicio.services.interfaces;
 import com.example.menumicroservicio.persistances.entities.Menu;
 import com.example.menumicroservicio.persistances.repositories.IMenuRepository;
 import com.example.menumicroservicio.web.requests.CreateChangeStatusRequest;
+import com.example.menumicroservicio.web.requests.CreateFindByIdRequest;
 import com.example.menumicroservicio.web.requests.CreateMenuRequest;
 import com.example.menumicroservicio.web.responses.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-public class IMenuServiceImpl implements IMenuService{
+public class MenuServiceImpl implements IMenuService{
     @Autowired
     private IMenuRepository repository;
 
@@ -45,8 +46,17 @@ public class IMenuServiceImpl implements IMenuService{
     }
 
     @Override
-    public void delete(Long id) {
-        repository.delete(findAndEnsureExist(id));
+    public BaseResponse delete(CreateFindByIdRequest request) {
+        repository.delete(findAndEnsureExist(request.getMenuId()));
+
+        return BaseResponse.builder()
+                .sessionId(request.getSessionId())
+                .data(null)
+                .message("The product was eliminated")
+                .success(Boolean.TRUE)
+                .httpStatus(HttpStatus.OK)
+                .statusCode(HttpStatus.OK.value())
+                .build();
     }
 
     private Menu from(CreateMenuRequest request){
